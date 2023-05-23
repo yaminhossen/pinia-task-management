@@ -3,10 +3,14 @@
     <input type="text" v-model="key">
     <h6>{{ key }}</h6>
     <h6>total: {{ total_user }}</h6>
+    <input v-model="userInput"> <br>
     <button @click="new_user()">add user</button>
+    <br>
+    search:
+    <input v-model="searchInput" type="text">
     <ul>
-      <li v-for="(item, index) in all_user" :key="index">
-        {{ item.name }}
+      <li v-for="(item, index) in userList" :key="index">
+        {{ item }}
         <button @click="delete_user(index)">delete</button>
       </li>
     </ul>
@@ -23,6 +27,8 @@ export default defineComponent({
   data: function () {
     return {
       key: '',
+      userInput: null,
+      searchInput: null,
     }
   },
   created: function () { },
@@ -41,7 +47,7 @@ export default defineComponent({
     }),
     new_user: function(){
       this.add_user({
-        name: "a"+( Math.ceil(Math.random()*10000)),
+        name: this.userInput,
         email: "a"+( Math.ceil(Math.random()*10000))+"gmail.com",
       })
     }
@@ -52,6 +58,13 @@ export default defineComponent({
       single_user: "user",
       total_user: 'count',
     }),
+    userList(){
+      if(this.searchInput){
+        return this.all_user.filter(user => user.name.includes(this.searchInput))
+      }else{
+        return this.all_user
+      }
+    },
   }
 })
 </script>
