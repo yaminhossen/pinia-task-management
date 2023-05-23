@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
 
-export const useCounterStore = defineStore('counter', {
+export const useCounterStores = defineStore('counter', {
   state: () => ({
     tasks: ['tamim', 'ramim', 'mahin','nayeem'],
      taskInput: null,
+     taskInput2: null,
      
   }),
   actions:{

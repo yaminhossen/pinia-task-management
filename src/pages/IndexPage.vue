@@ -1,47 +1,59 @@
 <template>
-<div>
-  <h5>Task Management</h5>
-  <div class="tasks">
-    <form @submit.prevent="taskStore.addTask(input)">
-      <input v-model="taskStore.taskInput" type="text" placeholder="Add Your Task" name="search" id=""><button type="submit">add</button>
-    </form>
-    <div>
-      Your recent task: <span class="input">{{ taskStore.taskInput }}</span>
-    </div>
-    <div class="task">
-       <div v-for="(task, index) in taskStore.tasks" :key="index" class="name">
-      <input class="cheakbox" type="checkbox" name="cheakbox" id=""> <span >{{ task }}</span> 
-   
-    <i class="fa-regular fa-pen-to-square"></i> <i @click="taskStore.deleteTask(index)" class="fa-solid fa-trash-can"></i>
-       </div>
-       <button @click="taskStore.clearAll">Clear All</button>
-   </div>
+  <div>
+    <input type="text" v-model="key">
+    <h6>{{ key }}</h6>
+    <h6>total: {{ total_user }}</h6>
+    <button @click="new_user()">add user</button>
+    <ul>
+      <li v-for="(item, index) in all_user" :key="index">
+        {{ item.name }}
+        <button @click="delete_user(index)">delete</button>
+      </li>
+    </ul>
   </div>
-</div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import {useCounterStore} from '../stores/example-store'
+import { mapActions, mapState } from 'pinia';
+import { defineComponent } from 'vue';
+import userStore from "../stores/userStore";
 
 export default defineComponent({
-  name: 'IndexPage',
-  setup (){
-    const taskStore = useCounterStore()
-    const input = taskStore.taskInput;
-    return {taskStore, input}
-    
+  name: "homePage",
+  data: function () {
+    return {
+      key: '',
+    }
   },
-  
+  created: function () { },
+  watch: {
+    key: {
+      handler: function (newv, oldv) {
+        console.log({ newv, oldv });
+      },
+      deep: true,
+    }
+  },
+  methods: {
+    ...mapActions(userStore, ["add_user"]),
+    ...mapActions(userStore, {
+      delete_user: "delete_user",
+    }),
+    new_user: function(){
+      this.add_user({
+        name: "a"+( Math.ceil(Math.random()*10000)),
+        email: "a"+( Math.ceil(Math.random()*10000))+"gmail.com",
+      })
+    }
+  },
+  computed: {
+    ...mapState(userStore, {
+      all_user: 'users',
+      single_user: "user",
+      total_user: 'count',
+    }),
+  }
 })
 </script>
-<style scoped>
-h5{
-  text-align: center;
-}
-.input{
-  font-size: large;
-  font-weight: bold;
-}
 
-</style>
+<style></style>
