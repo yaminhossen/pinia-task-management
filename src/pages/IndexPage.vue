@@ -8,12 +8,19 @@
     <br>
     search:
     <input v-model="searchInput" type="text">
+    <br>
+    Edit:
+    <input v-model="userInput2" type="text">
+    <h5>You have {{ userList.length }} match user.</h5>
     <ul>
       <li v-for="(item, index) in userList" :key="index">
         {{ item }}
         <button @click="delete_user(index)">delete</button>
+        <button @click="editUser(index)">Edit</button>
+        <button @click="updateUser(index)">Update</button>
       </li>
     </ul>
+    <button @click="delete_All">Delete All</button>
   </div>
 </template>
 
@@ -28,6 +35,7 @@ export default defineComponent({
     return {
       key: '',
       userInput: null,
+      userInput2: null,
       searchInput: null,
     }
   },
@@ -43,14 +51,30 @@ export default defineComponent({
   methods: {
     ...mapActions(userStore, ["add_user"]),
     ...mapActions(userStore, {
+      delete_All: "clear_users"
+    }),
+    ...mapActions(userStore, {
       delete_user: "delete_user",
     }),
     new_user: function(){
       this.add_user({
         name: this.userInput,
         email: "a"+( Math.ceil(Math.random()*10000))+"gmail.com",
-      })
+      }),
+      this.userInput= '';
+
+    },
+    editUser(index){
+      this.userInput2 = this.all_user[index].name
+      console.log(this.all_user[index].name)
+    },
+    updateUser(index){
+      this.all_user[index].name = this.userInput2
+      this.userInput2 = ""
     }
+  //   edit_user: function(){
+  //     this.userInput2 = this.all_user.name;
+  //   }
   },
   computed: {
     ...mapState(userStore, {
@@ -65,6 +89,10 @@ export default defineComponent({
         return this.all_user
       }
     },
+    // editUser(n){
+    //   // this.userInput2 = this.all_user[index].name
+    //   console.log(this.all_user[n].name)
+    // }
   }
 })
 </script>

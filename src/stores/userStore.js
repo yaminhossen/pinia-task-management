@@ -6,7 +6,11 @@ export default defineStore('userStore', {
             {
                 name: 'aaa',
                 email: "t@g.com",
-            }
+            },
+            {
+                name: 'bbb',
+                email: "b@b.com",
+            },
         ],
         user: {},
     }),
@@ -27,6 +31,9 @@ export default defineStore('userStore', {
          */
         delete_user: function (index = 0) {
             this.users.splice(index, 1);
+        },
+        clear_users: function(){
+            this.users = []
         }
     },
 })
