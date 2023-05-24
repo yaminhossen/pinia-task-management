@@ -21,6 +21,8 @@
       </li>
     </ul>
     <button @click="delete_All">Delete All</button>
+    <About></About>
+    <RouterLink to="/about">About</RouterLink>
   </div>
 </template>
 
@@ -28,9 +30,11 @@
 import { mapActions, mapState } from 'pinia';
 import { defineComponent } from 'vue';
 import userStore from "../stores/userStore";
+import About from 'src/components/About.vue';
 
 export default defineComponent({
   name: "homePage",
+  components: {About},
   data: function () {
     return {
       key: '',

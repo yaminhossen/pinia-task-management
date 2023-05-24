@@ -1,0 +1,28 @@
+POST http://localhost:5000/users HTTP/1.1
+content-type: application/json
+
+
+{
+    "name": "tamim",
+    "email": "t@m.com"
+} 
+###
+
+get http://localhost:5000/users HTTP/1.1
+
+###
+PUT http://localhost:5000/users/646dfd5c7d7ca1b166716a87 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "anas",
+    "email": "a@s.com"
+} 
+###
+
+get http://localhost:5000/users/645b2a4d663f3be741e8158a HTTP/1.1
+
+
+###
+
+delete http://localhost:5000/users/646dfca37d7ca1b166716a81 HTTP/1.1
