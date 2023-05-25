@@ -1,5 +1,13 @@
 <template>
   <div>
+    <form @submit.prevent="save_data($event)" enctype="multipart/form-data" action="">
+      <input type="text" name="name">
+      <input type="text" name="email">
+      <button>submit</button>
+    </form>
+    <div>
+      <h1>User: {{ single_user.name }}</h1>
+    </div>
     <input type="text" v-model="key">
     <h6>{{ key }}</h6>
     <h6>total: {{ total_user }}</h6>
@@ -14,9 +22,11 @@
     <h5>You have {{ userList.length }} match user.</h5>
     <ul>
       <li v-for="(item, index) in userList" :key="index">
-        {{ item }}
-        <button @click="delete_user(index)">delete</button>
+        {{ item._id }} - 
+        {{ item.name }} 
+        <button @click="delete_user(item._id)">delete</button>
         <button @click="editUser(index)">Edit</button>
+        <button @click="find_user(item._id)">Find</button>
         <button @click="updateUser(index)">Update</button>
       </li>
     </ul>
@@ -43,7 +53,9 @@ export default defineComponent({
       searchInput: null,
     }
   },
-  created: function () { },
+  created: async function () {
+    await this.fetch_users();
+  },
   watch: {
     key: {
       handler: function (newv, oldv) {
@@ -53,7 +65,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(userStore, ["add_user"]),
+    ...mapActions(userStore, ["add_user","find_user", "save_data","fetch_users"]),
     ...mapActions(userStore, {
       delete_All: "clear_users"
     }),

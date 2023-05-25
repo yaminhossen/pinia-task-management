@@ -7,6 +7,15 @@ content-type: application/json
     "email": "t@m.com"
 } 
 ###
+POST http://localhost:5005/users HTTP/1.1
+content-type: application/json
+
+
+{
+    "name": "tamim",
+    
+} 
+###
 
 get http://localhost:5000/users HTTP/1.1
 
