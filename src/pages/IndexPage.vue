@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="save_data($event)" enctype="multipart/form-data" action="">
+    <form id="userInput" @submit.prevent="addd_user($event)" enctype="multipart/form-data" action="">
       <input type="text" name="name">
       <input type="text" name="email">
       <button>submit</button>
@@ -11,8 +11,8 @@
     <input type="text" v-model="key">
     <h6>{{ key }}</h6>
     <h6>total: {{ total_user }}</h6>
-    <input v-model="userInput"> <br>
-    <button @click="new_user()">add user</button>
+    <!-- <input v-model="userInput"> <br>
+    <button @click="new_user()">add user</button> -->
     <br>
     search:
     <input v-model="searchInput" type="text">
@@ -30,7 +30,7 @@
         <button @click="updateUser(index)">Update</button>
       </li>
     </ul>
-    <button @click="delete_All">Delete All</button>
+    <button @click="delete_All()">Delete All</button>
     <About></About>
     <RouterLink to="/about">About</RouterLink>
   </div>
@@ -51,6 +51,7 @@ export default defineComponent({
       userInput: null,
       userInput2: null,
       searchInput: null,
+      
     }
   },
   created: async function () {
@@ -72,14 +73,25 @@ export default defineComponent({
     ...mapActions(userStore, {
       delete_user: "delete_user",
     }),
-    new_user: function(){
-      this.add_user({
-        name: this.userInput,
-        email: "a"+( Math.ceil(Math.random()*10000))+"gmail.com",
-      }),
-      this.userInput= '';
+    // ...mapActions(userStore, {
+    //   save_data: "save_data",
+     
+    // }),
+    addd_user: function($event){
+      this.save_data($event),
+      document.getElementById('userInput').reset();
+      // this.one= '';
+      // this.two= '';
 
     },
+    // add_user: function(){
+    //   this.save_data({
+    //     name: this.userInput,
+    //     email: "a"+( Math.ceil(Math.random()*10000))+"gmail.com",
+    //   }),
+    //   this.userInput= '';
+
+    // },
     editUser(index){
       this.userInput2 = this.all_user[index].name
       console.log(this.all_user[index].name)

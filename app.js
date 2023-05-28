@@ -40,7 +40,7 @@ app.get('/', (req, res)=>{
         <script>
             function save(){
                 event.preventDefault();
-                fetch("/save/343?i=adsf",{
+                fetch("/save",{
                     method: "POST",
                     body: new FormData(event.target),
                 })
@@ -57,20 +57,30 @@ app.delete('/users/:id', async (req, res)=>{
     let user = await userModel.deleteOne({_id:req.params.id}).exec();
     res.json(user);
 })
+app.delete('/users', async (req, res)=>{
+    let users = await userModel.deleteMany().exec();
+    res.json(users);
+})
 app.get('/user/:id', async (req, res)=>{
     let user = await userModel.findOne({_id:req.params.id}).exec();
     res.json(user);
 })
-app.post('/save', (req, res)=>{
-    console.log(req.body);
-    res.json(req.body);
+app.put('/user/:id', async (req, res)=>{
+    let user = await userModel.findOne({_id:req.params.id}).exec();
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.save();
+    res.json(user);
+})
+app.post('/save', async (req, res)=>{
+    const user = req.body;
+    let data = await userModel.create(user);
+    console.log(user);
+    res.json(user);
 })
 
 // database connection with mongoose
-mongoose
-    .connect('mongodb://127.0.0.1:27017/user_management',)
-    .then(()=> console.log("connection successful"))
-    .catch((err)=> console.log(err));
+
 
 
 // management routes
@@ -82,6 +92,13 @@ app.use((req, res, next) =>{
 })
 
 // app routes
-app.listen(port, ()=>{
-    console.log(`This app listening on this port http://localhost:${port}`)
-})
+
+mongoose
+    .connect('mongodb://127.0.0.1:27017/user_management',)
+    .then(()=> {
+        console.log("connection successful")
+        app.listen(port, ()=>{
+            console.log(`This app listening on this port http://localhost:${port}`)
+        })
+    })
+    .catch((err)=> console.log(err));

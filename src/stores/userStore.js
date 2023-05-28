@@ -34,8 +34,9 @@ export default defineStore('userStore', {
             await axios.delete('http://localhost:5000/users/'+id)
             this.fetch_users();
         },
-        clear_users: function(){
-            this.users = []
+        clear_users: async function(){
+            await axios.delete('http://localhost:5000/users/')
+            this.fetch_users();
         },
         fetch_users:async function(){
             let users = await axios.get('http://localhost:5000/users')
@@ -46,7 +47,7 @@ export default defineStore('userStore', {
             this.user = user.data;
         },
         save_data: function(event){
-            console.log(event.target);
+            console.log(event);
             let data = new FormData(event.target);
             // fetch("http://localhost:5007/users",{
             //     method: "POST",
@@ -56,6 +57,7 @@ export default defineStore('userStore', {
 
             //     }
             // })
+            console.log(data);
             axios.post('http://localhost:5000/save',data)
                 .then((res)=>{
                     console.log(res.data);
