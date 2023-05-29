@@ -31,6 +31,7 @@
       </li>
     </ul>
     <button @click="delete_All()">Delete All</button>
+    <button @click="fetch_users()">fetch user</button>
     <About></About>
     <RouterLink to="/about">About</RouterLink>
   </div>
@@ -51,6 +52,7 @@ export default defineComponent({
       userInput: null,
       userInput2: null,
       searchInput: null,
+      names: this.fetch_users(),
       
     }
   },

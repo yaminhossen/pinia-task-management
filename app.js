@@ -31,21 +31,21 @@ app.set('json spaces', 4)
 // home page 
 app.get('/', (req, res)=>{
     res.send(`
-        <form onsubmit="save()" 
-            action="">
-            <input type="text" name="name">
-            <input type="text" name="email">
-            <button>submit</button> 
-        </form>
-        <script>
-            function save(){
-                event.preventDefault();
-                fetch("/save",{
-                    method: "POST",
-                    body: new FormData(event.target),
-                })
-            }
-        </script>
+        // <form onsubmit="save()" 
+        //     action="">
+        //     <input type="text" name="name">
+        //     <input type="text" name="email">
+        //     <button>submit</button> 
+        // </form>
+        // <script>
+        //     function save(){
+        //         event.preventDefault();
+        //         fetch("/save",{
+        //             method: "POST",
+        //             body: new FormData(event.target),
+        //         })
+        //     }
+        // </script>
     `)
 })
 
