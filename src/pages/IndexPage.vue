@@ -44,7 +44,7 @@
     <div class="modal" v-if="isModalOpen">
       <form class="modal-content" id="userInput" @submit.prevent="addd_user($event)" enctype="multipart/form-data" action="">
       
-        <input type="text" name="name">
+        <input type="text" name="name" placeholder="Add your task">
         <button >submit</button>
       
     </form>
@@ -307,6 +307,7 @@ h5{
 .modal-content {
   background-color: white;
   padding: 20px;
+  border-radius: 9px;
 }
 .task{
   /* border: 1px solid rgb(98, 89, 89); */
