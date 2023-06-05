@@ -58,7 +58,7 @@ export default defineStore('userStore', {
             //     }
             // })
             console.log(data);
-            axios.post('http://localhost:5000/save',data)
+            axios.post('http://localhost:5000/store',data)
                 .then((res)=>{
                     console.log(res.data);
                     // this.users.push(res.data);

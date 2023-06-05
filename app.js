@@ -31,21 +31,21 @@ app.set('json spaces', 4)
 // home page 
 app.get('/', (req, res)=>{
     res.send(`
-        // <form onsubmit="save()" 
-        //     action="">
-        //     <input type="text" name="name">
-        //     <input type="text" name="email">
-        //     <button>submit</button> 
-        // </form>
-        // <script>
-        //     function save(){
-        //         event.preventDefault();
-        //         fetch("/save",{
-        //             method: "POST",
-        //             body: new FormData(event.target),
-        //         })
-        //     }
-        // </script>
+        <form onsubmit="save()" 
+            action="">
+            <input type="text" name="name">
+            <input type="text" name="email">
+            <button>submit</button> 
+        </form>
+        <script>
+            function save(){
+                event.preventDefault();
+                fetch("/save",{
+                    method: "POST",
+                    body: new FormData(event.target),
+                })
+            }
+        </script>
     `)
 })
 
@@ -72,7 +72,7 @@ app.put('/user/:id', async (req, res)=>{
     user.save();
     res.json(user);
 })
-app.post('/save', async (req, res)=>{
+app.post('/store', async (req, res)=>{
     const user = req.body;
     let data = await userModel.create(user);
     console.log(user);
