@@ -68,7 +68,8 @@ app.get('/user/:id', async (req, res)=>{
 app.put('/user/:id', async (req, res)=>{
     let user = await userModel.findOne({_id:req.params.id}).exec();
     user.name = req.body.name;
-    user.email = req.body.email;
+    console.log(req.body)
+    // user.email = req.body.email;
     user.save();
     res.json(user);
 })

@@ -64,6 +64,25 @@ export default defineStore('userStore', {
                     // this.users.push(res.data);
                     this.fetch_users();
                 })
+        },
+        update_data: function(id,event){
+            console.log(event);
+            let data = new FormData(event.target);
+            // fetch("http://localhost:5007/users",{
+            //     method: "POST",
+            //     body: data,
+            //     headers: {
+            //         "Content-Type": "application/x-www-form-urlencoded"
+
+            //     }
+            // })
+            // console.log(id);
+            axios.put('http://localhost:5000/user/'+id, data)
+                .then((res)=>{
+                    console.log(res.data);
+                    // this.users.push(res.data);
+                    this.fetch_users();
+                })
         }
     },
 })

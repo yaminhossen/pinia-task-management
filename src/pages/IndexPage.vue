@@ -50,6 +50,15 @@
     </form>
    
     </div>
+    <div class="modal" v-if="isModalOpen2">
+      <form class="modal-content" @submit.prevent="update_user(this.userInput3, $event)" enctype="multipart/form-data" action="">
+      
+        <input v-model="userInput2" type="text" name="name">
+        <button >Update</button>
+      
+    </form>
+   
+    </div>
     <!-- <form id="userInput" @submit.prevent="addd_user($event)" enctype="multipart/form-data" action="">
       
       <input v-model="userInput" type="text" name="name">
@@ -67,45 +76,10 @@
           <div v-for="user,index in all_user" :key="index" class="task">
             <div class="tInfo"><span class="number">{{ index +1 }}</span><span class="tTitle"> {{ user.name }}</span></div> 
             <div class="tButton">
-              <button class="button1"><i class="fa-regular fa-pen-to-square"></i></button>
+              <button @click="openModal2(index)" class="button1"><i class="fa-regular fa-pen-to-square"></i></button>
               <button @click="delete_user(user._id)" class="button2"><i class="fa-solid fa-trash-can"></i></button>
             </div> 
           </div>
-          <!-- <div class="task">
-            <div class="tInfo"><span class="number">01</span><span class="tTitle"> Daily challeng</span></div> 
-            <div class="tButton">
-              <button class="button1"><i class="fa-regular fa-pen-to-square"></i></button>
-              <button class="button2"><i class="fa-solid fa-trash-can"></i></button>
-            </div> 
-          </div>
-          <div class="task">
-            <div class="tInfo"><span class="number">01</span><span class="tTitle"> Daily challeng</span></div> 
-            <div class="tButton">
-              <button class="button1"><i class="fa-regular fa-pen-to-square"></i></button>
-              <button class="button2"><i class="fa-solid fa-trash-can"></i></button>
-            </div> 
-          </div>
-          <div class="task">
-            <div class="tInfo"><span class="number">01</span><span class="tTitle"> Daily challeng</span></div> 
-            <div class="tButton">
-              <button class="button1"><i class="fa-regular fa-pen-to-square"></i></button>
-              <button class="button2"><i class="fa-solid fa-trash-can"></i></button>
-            </div> 
-          </div>
-          <div class="task">
-            <div class="tInfo"><span class="number">01</span><span class="tTitle"> Daily challeng</span></div> 
-            <div class="tButton">
-              <button class="button1"><i class="fa-regular fa-pen-to-square"></i></button>
-              <button class="button2"><i class="fa-solid fa-trash-can"></i></button>
-            </div> 
-          </div>
-          <div class="task">
-            <div class="tInfo"><span class="number">01</span><span class="tTitle"> Daily challeng</span></div> 
-            <div class="tButton">
-              <button class="button1"><i class="fa-regular fa-pen-to-square"></i></button>
-              <button class="button2"><i class="fa-solid fa-trash-can"></i></button>
-            </div> 
-          </div> -->
       
       
 
@@ -128,9 +102,11 @@ export default defineComponent({
       key: '',
       userInput: null,
       userInput2: null,
+      userInput3: null,
       searchInput: null,
       names: this.fetch_users(),
        isModalOpen: ref(false),
+       isModalOpen2: ref(false),
       
     }
   },
@@ -146,7 +122,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(userStore, ["add_user","find_user", "save_data","fetch_users"]),
+    ...mapActions(userStore, ["add_user","find_user", "save_data","fetch_users", "update_data"]),
     ...mapActions(userStore, {
       delete_All: "clear_users"
     }),
@@ -163,6 +139,15 @@ export default defineComponent({
     closeModal() {
       this.isModalOpen = !this.isModalOpen
     },
+    openModal2(index) {
+      this.isModalOpen2 = !this.isModalOpen2
+      this.userInput2 = this.all_user[index].name
+      this.userInput3 = this.all_user[index]._id
+      console.log(this.all_user[index]._id)
+    },
+    closeModal2() {
+      this.isModalOpen2 = !this.isModalOpen2
+    },
     addd_user: function($event){
       this.save_data($event),
       document.getElementById('userInput').reset();
@@ -170,6 +155,12 @@ export default defineComponent({
       // this.one= '';
       // this.two= '';
 
+    },
+    update_user: function(id, $event){
+      this.update_data(id, $event),
+      // console.log($event)
+      this.userInput2 = '';
+      this.closeModal2()
     },
     // addd_user: function(){
     //   this.save_data({
@@ -182,11 +173,13 @@ export default defineComponent({
     // },
     editUser(index){
       this.userInput2 = this.all_user[index].name
-      console.log(this.all_user[index].name)
+      this.userInput3 = this.all_user[index]
+      console.log(this.all_user[index]._id)
     },
     updateUser(index){
       this.all_user[index].name = this.userInput2
-      this.userInput2 = ""
+      this.userInput2 = "";
+      this.closeModal2()
     }
   //   edit_user: function(){
   //     this.userInput2 = this.all_user.name;
